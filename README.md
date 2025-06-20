@@ -6,3 +6,5 @@
 (This is the chmwq repository for personal webpage deployment, and you can use this template to build your website.
 
 Remember to include information about the developer and designer.)
+
+[Copyright © 2025 chwmq， Designed by HTMLPAGE]
