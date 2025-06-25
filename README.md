@@ -6,9 +6,9 @@
 
 像这样:
 
-/\*[Copyright © 2025 chwmq， Designed by HTMLPAGE]\*/
+<code>/\*[Copyright © 2025 chwmq， Designed by HTMLPAGE]\*/</code>
 
-\<!--[Copyright © 2025 chwmq， Designed by HTMLPAGE]-->
+<code>\<!--[Copyright © 2025 chwmq， Designed by HTMLPAGE]--></code>
 
 #正文
 
