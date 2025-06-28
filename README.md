@@ -1,8 +1,8 @@
-Hey there! I'm chwmq, a passionate coder with a keen interest in computer. I'm always eager to explore new technologies and solve challenging problems.
+你好呀，我是一个10后的初中生。
 ﻿
-## About Me
-- **Website**: [https://chwmq.netlify.app/](https://chwmq.netlify.app/)
-- **Interests**: coding
+## 关于我
+- **网站**: [https://chwmq.netlify.app/](https://chwmq.netlify.app/)
+- **兴趣**: 编程，看电影...
 ﻿
 ## Projects
 I've also contributed to several open-source projects, and I'm always looking for new opportunities to collaborate.
