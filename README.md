@@ -9,5 +9,5 @@
 - **兴趣**: coding，看电影...
 ﻿
 ## 赞赏我
-<img src="https://raw.githubusercontent.com/chwmq/chwmq/9f7eb650aeb32641d24b589da1ecf960f59ceb15/pay.jpg" alt="支付图片" height="200" width="200">
+<img src="https://raw.githubusercontent.com/chwmq/chwmq/9f7eb650aeb32641d24b589da1ecf960f59ceb15/pay.jpg" alt="支付图片" height="300" width="300">
 <!--height="200" width="200"-->
