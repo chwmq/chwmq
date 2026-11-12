@@ -13,7 +13,7 @@
             src: url("Tencent Peacekeeper Elite Bold-subset.ttf") format("truetype");
             font-weight: 900;
             font-style: normal;
-            font-display: block;
+            font-display: swap;
             unicode-range: U+0043, U+0048, U+0057, U+004D, U+0051;
         }
 
@@ -37,7 +37,6 @@
 
         .title {
             font-family: "PeacekeeperEliteBold", "Inter", sans-serif;
-            /* 动态字号：最小52px，最大96px，随屏幕变化 */
             font-size: clamp(52px, 16vw, 96px);
             font-weight: 900;
             letter-spacing: clamp(8px, 2.5vw, 16px);
@@ -91,7 +90,7 @@
     <h1 class="title">CHWMQ</h1>
 
     <div class="search-wrap">
-        <input class="search-input" type="text" value=":(">
+        <input class="search-input" type="text">
         <button class="arrow-btn">
             <svg viewBox="0 0 24 24">
                 <path d="M5 12h14M14 7l5 5-5 5"></path>
@@ -102,6 +101,14 @@
     <script>
         const input = document.querySelector('.search-input');
         const btn = document.querySelector('.arrow-btn');
+        const defaultText = ":(";
+
+        // JS兜底赋值，保证一定显示
+        window.addEventListener('DOMContentLoaded', () => {
+            input.value = defaultText;
+            // 自动选中这个表情，直接输入覆盖
+            input.select();
+        });
 
         function submit() {
             const val = input.value.trim();
