@@ -2,95 +2,145 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CHWMQ</title>
+    <!-- 引入Inter字体，作为全局统一默认字体，跨设备一致 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         @font-face {
             font-family: "PeacekeeperEliteBold";
-            src: url('Tencent Peacekeeper Elite Bold.ttf') format("truetype");
+            src: url("Tencent Peacekeeper Elite Bold-subset.ttf") format("truetype");
             font-weight: 900;
             font-style: normal;
-            font-display: swap;
+            font-display: block;
+            /* 严格限定：仅C H W M Q五个大写字母启用这个字体 */
+            unicode-range: U+0043, U+0048, U+0057, U+004D, U+0051;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
+        /* 全局统一基础字体：Inter，所有其他字符都用这个，不受设备系统字体影响 */
         body {
+            font-family: "Inter", sans-serif;
             background-color: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 36px;
+            gap: 48px;
         }
+
         .title {
-            font-family: "PeacekeeperEliteBold", sans-serif;
-            font-size: 88px;
+            font-family: "PeacekeeperEliteBold", "Inter", sans-serif;
+            font-size: 96px;
             font-weight: 900;
-            letter-spacing: 14px;
+            letter-spacing: 16px;
             color: #111111;
+            line-height: 1;
         }
+
         .search-wrap {
             display: flex;
             align-items: center;
             border: 2px solid #000000;
             border-radius: 4px;
+            background: #ffffff;
         }
+
         .search-input {
-            width: 320px;
-            height: 52px;
+            width: 340px;
+            height: 56px;
             border: none;
             outline: none;
-            font-size: 18px;
+            font-size: 20px;
             background: transparent;
-            padding: 0 12px;
+            padding: 0 16px;
+            /* 输入框也使用Inter，:( 和输入内容都是Inter */
+            font-family: "Inter", sans-serif;
         }
+
         .arrow-btn {
             background: #000000;
             border: none;
             cursor: pointer;
-            height: 52px;
-            padding: 0 16px;
+            height: 56px;
+            padding: 0 20px;
             display: flex;
             align-items: center;
+            justify-content: center;
             border-radius: 0 2px 2px 0;
         }
+
         .arrow-btn svg {
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             stroke: #ffffff;
             stroke-width: 2;
             fill: none;
         }
+
+        @media (max-width: 480px) {
+            body {
+                gap: 36px;
+            }
+
+            .title {
+                font-size: 56px;
+                letter-spacing: 10px;
+            }
+
+            .search-input {
+                width: 240px;
+                height: 48px;
+                font-size: 18px;
+            }
+
+            .arrow-btn {
+                height: 48px;
+                padding: 0 16px;
+            }
+
+            .arrow-btn svg {
+                width: 24px;
+                height: 24px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="title">CHWMQ</div>
+    <h1 class="title">CHWMQ</h1>
+
     <div class="search-wrap">
-        <input class="search-input" type="text" placeholder="">
+        <input class="search-input" type="text" value=":(">
         <button class="arrow-btn">
             <svg viewBox="0 0 24 24">
                 <path d="M5 12h14M14 7l5 5-5 5"></path>
             </svg>
         </button>
     </div>
+
     <script>
         const input = document.querySelector('.search-input');
         const btn = document.querySelector('.arrow-btn');
 
         function submit() {
             const val = input.value.trim();
-            if(val) {
+            if (val) {
                 alert(`输入内容：${val}`);
             }
         }
+
         btn.addEventListener('click', submit);
         input.addEventListener('keydown', (e) => {
-            if(e.key === 'Enter') submit();
-        })
+            if (e.key === 'Enter') submit();
+        });
     </script>
 </body>
 </html>
