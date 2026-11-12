@@ -90,7 +90,7 @@
     <h1 class="title">CHWMQ</h1>
 
     <div class="search-wrap">
-        <input class="search-input" type="text">
+        <input class="search-input" type="text" value="默认值">
         <button class="arrow-btn">
             <svg viewBox="0 0 24 24">
                 <path d="M5 12h14M14 7l5 5-5 5"></path>
@@ -98,29 +98,6 @@
         </button>
     </div>
 
-    <script>
-        const input = document.querySelector('.search-input');
-        const btn = document.querySelector('.arrow-btn');
-        const defaultText = ":(";
 
-        // JS兜底赋值，保证一定显示
-        window.addEventListener('DOMContentLoaded', () => {
-            input.value = defaultText;
-            // 自动选中这个表情，直接输入覆盖
-            input.select();
-        });
-
-        function submit() {
-            const val = input.value.trim();
-            if (val) {
-                alert(`输入内容：${val}`);
-            }
-        }
-
-        btn.addEventListener('click', submit);
-        input.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') submit();
-        });
-    </script>
 </body>
 </html>
