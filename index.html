@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CHWMQ</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         @font-face {
             font-family: "PeacekeeperEliteBold";
@@ -24,7 +21,8 @@
         }
 
         body {
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                         "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
             background-color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -36,7 +34,7 @@
         }
 
         .title {
-            font-family: "PeacekeeperEliteBold", "Inter", -apple-system, sans-serif;
+            font-family: "PeacekeeperEliteBold", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             font-size: clamp(52px, 16vw, 96px);
             font-weight: 900;
             letter-spacing: clamp(8px, 2.5vw, 16px);
@@ -62,7 +60,7 @@
             font-size: clamp(16px, 4vw, 20px);
             background: transparent;
             padding: 0 16px;
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: inherit;
         }
 
         /* 输入框内的默认提示文字 */
