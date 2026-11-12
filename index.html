@@ -24,7 +24,7 @@
         }
 
         body {
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            font-family: "Inter", sans-serif;
             background-color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -36,7 +36,7 @@
         }
 
         .title {
-            font-family: "PeacekeeperEliteBold", "Inter", -apple-system, sans-serif;
+            font-family: "PeacekeeperEliteBold", "Inter", sans-serif;
             font-size: clamp(52px, 16vw, 96px);
             font-weight: 900;
             letter-spacing: clamp(8px, 2.5vw, 16px);
@@ -62,13 +62,7 @@
             font-size: clamp(16px, 4vw, 20px);
             background: transparent;
             padding: 0 16px;
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-        }
-
-        /* 输入框内的默认提示文字 */
-        .search-input::placeholder {
-            color: #9a9a9a;
-            opacity: 1;
+            font-family: "Inter", sans-serif;
         }
 
         .arrow-btn {
@@ -96,13 +90,14 @@
     <h1 class="title">CHWMQ</h1>
 
     <div class="search-wrap">
-        <!-- 用 placeholder 做默认提示文字，不作为真实输入值 -->
-        <input class="search-input" type="text" placeholder="请输入文本">
+        <input class="search-input" type="text" value="默认值">
         <button class="arrow-btn">
             <svg viewBox="0 0 24 24">
                 <path d="M5 12h14M14 7l5 5-5 5"></path>
             </svg>
         </button>
     </div>
+
+
 </body>
 </html>
