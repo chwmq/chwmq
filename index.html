@@ -71,6 +71,18 @@
             opacity: 1;
         }
 
+        /* 即将打开的文件名提示 */
+        .file-hint {
+            width: 100%;
+            max-width: 420px;
+            min-height: 20px;
+            margin-top: -clamp(20px, 5vw, 28px);
+            font-size: 13px;
+            color: #8a8a8a;
+            text-align: left;
+            word-break: break-all;
+        }
+
         .arrow-btn {
             background: #000000;
             border: none;
@@ -97,12 +109,59 @@
 
     <div class="search-wrap">
         <!-- 用 placeholder 做默认提示文字，不作为真实输入值 -->
-        <input class="search-input" type="text" placeholder=":(">
-        <button class="arrow-btn">
+        <input class="search-input" id="searchInput" type="text" placeholder=":("
+               autocomplete="off" spellcheck="false">
+        <button class="arrow-btn" id="searchBtn" type="button" title="" aria-label="">
             <svg viewBox="0 0 24 24">
                 <path d="M5 12h14M14 7l5 5-5 5"></path>
             </svg>
         </button>
     </div>
+
+    <!-- 显示将要打开的文件名，方便确认拼接结果 -->
+    <div class="file-hint" id="fileHint"></div>
+
+<script>
+const input = document.querySelector('#searchInput');
+const btn = document.querySelector('#searchBtn');
+const hint = document.querySelector('#fileHint');
+
+// 把输入的文本拼成目标文件名：文本 + .HTML
+function buildFileName(raw) {
+    let name = (raw || '').trim().replace(/\\/g, '/');
+    name = name.replace(/^\.\//, '').replace(/^\/+/, '').replace(/\/+$/, '');
+    if (!name) return '';
+    // 已经带了 .html/.HTML 就不再重复追加
+    if (!/\.html?$/i.test(name)) name += '.html';
+    return name;
+}
+
+// 打开同目录下的该文件
+function openTarget() {
+    const fileName = buildFileName(input.value);
+    if (!fileName) {
+        input.focus();
+        return;
+    }
+    // 相对路径：相对于当前页面所在目录
+    window.open('./' + fileName, '_blank', 'noopener');
+}
+
+function refreshHint() {
+    const fileName = buildFileName(input.value);
+    hint.textContent = fileName ? '@' + fileName : '';
+}
+
+btn.addEventListener('click', openTarget);
+
+input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        openTarget();
+    }
+});
+
+input.addEventListener('input', refreshHint);
+</script>
 </body>
 </html>
