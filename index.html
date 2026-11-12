@@ -1,1 +1,165 @@
-1
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CHWMQ</title>
+    <style>
+        @font-face {
+            font-family: "PeacekeeperEliteBold";
+            src: url("Tencent Peacekeeper Elite Bold-subset.ttf") format("truetype");
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0043, U+0048, U+0057, U+004D, U+0051;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+                         "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+            background-color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(32px, 8vw, 48px);
+            padding: 0 16px;
+        }
+
+        .title {
+            font-family: "PeacekeeperEliteBold", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            font-size: clamp(52px, 16vw, 96px);
+            font-weight: 900;
+            letter-spacing: clamp(8px, 2.5vw, 16px);
+            color: #111111;
+            line-height: 1;
+        }
+
+        .search-wrap {
+            display: flex;
+            align-items: center;
+            border: 2px solid #000000;
+            border-radius: 4px;
+            background: #ffffff;
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .search-input {
+            flex: 1;
+            height: clamp(48px, 12vw, 56px);
+            border: none;
+            outline: none;
+            font-size: clamp(16px, 4vw, 20px);
+            background: transparent;
+            padding: 0 16px;
+            font-family: inherit;
+        }
+
+        /* 输入框内的默认提示文字 */
+        .search-input::placeholder {
+            color: #9a9a9a;
+            opacity: 1;
+        }
+
+        /* 即将打开的文件名提示 */
+        .file-hint {
+            width: 100%;
+            max-width: 420px;
+            min-height: 20px;
+            margin-top: -clamp(20px, 5vw, 28px);
+            font-size: 13px;
+            color: #8a8a8a;
+            text-align: left;
+            word-break: break-all;
+        }
+
+        .arrow-btn {
+            background: #000000;
+            border: none;
+            cursor: pointer;
+            height: clamp(48px, 12vw, 56px);
+            padding: 0 clamp(14px, 4vw, 20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .arrow-btn svg {
+            width: clamp(22px, 5vw, 28px);
+            height: clamp(22px, 5vw, 28px);
+            stroke: #ffffff;
+            stroke-width: 2;
+            fill: none;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">CHWMQ</h1>
+
+    <div class="search-wrap">
+        <!-- 用 placeholder 做默认提示文字，不作为真实输入值 -->
+        <input class="search-input" id="searchInput" type="text" placeholder="请输入文本"
+               autocomplete="off" spellcheck="false">
+        <button class="arrow-btn" id="searchBtn" type="button" title="打开文件" aria-label="打开文件">
+            <svg viewBox="0 0 24 24">
+                <path d="M5 12h14M14 7l5 5-5 5"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- 显示将要打开的文件名，方便确认拼接结果 -->
+    <div class="file-hint" id="fileHint"></div>
+
+<script>
+const input = document.querySelector('#searchInput');
+const btn = document.querySelector('#searchBtn');
+const hint = document.querySelector('#fileHint');
+
+// 把输入的文本拼成目标文件名：文本 + .html
+function buildFileName(raw) {
+    let name = (raw || '').trim().replace(/\\/g, '/');
+    name = name.replace(/^\.\//, '').replace(/^\/+/, '').replace(/\/+$/, '');
+    if (!name) return '';
+    // 已经带了 .html/.HTML 就不再重复追加
+    if (!/\.html?$/i.test(name)) name += '.html';
+    return name;
+}
+
+// 打开同目录下的该文件
+function openTarget() {
+    const fileName = buildFileName(input.value);
+    if (!fileName) {
+        input.focus();
+        return;
+    }
+    // 相对路径：相对于当前页面所在目录
+    window.open('./' + fileName, '_blank', 'noopener');
+}
+
+function refreshHint() {
+    const fileName = buildFileName(input.value);
+    hint.textContent = fileName ? '@' + fileName : '';
+}
+
+btn.addEventListener('click', openTarget);
+
+input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        openTarget();
+    }
+});
+
+input.addEventListener('input', refreshHint);
+</script>
+</body>
+</html>
