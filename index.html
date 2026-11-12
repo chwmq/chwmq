@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CHWMQ</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
         @font-face {
             font-family: "PeacekeeperEliteBold";
@@ -24,7 +21,7 @@
         }
 
         body {
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            /* 去掉固定Inter，使用浏览器原生默认字体 */
             background-color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -36,7 +33,7 @@
         }
 
         .title {
-            font-family: "PeacekeeperEliteBold", "Inter", -apple-system, sans-serif;
+            font-family: "PeacekeeperEliteBold", sans-serif;
             font-size: clamp(52px, 16vw, 96px);
             font-weight: 900;
             letter-spacing: clamp(8px, 2.5vw, 16px);
@@ -62,7 +59,11 @@
             font-size: clamp(16px, 4vw, 20px);
             background: transparent;
             padding: 0 16px;
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            /* 输入框使用系统原生字体，不再强制Inter */
+        }
+        .search-input::placeholder {
+            color: #444444;
+            opacity: 1;
         }
 
         .arrow-btn {
@@ -90,19 +91,12 @@
     <h1 class="title">CHWMQ</h1>
 
     <div class="search-wrap">
-        <!-- 静态写死默认值 :( -->
-        <input class="search-input" type="text" value=":(">
+        <input class="search-input" type="text" placeholder=":(">
         <button class="arrow-btn">
             <svg viewBox="0 0 24 24">
                 <path d="M5 12h14M14 7l5 5-5 5"></path>
             </svg>
         </button>
     </div>
-
-<script>
-const input = document.querySelector('.search-input');
-// 页面一加载立刻强制赋值，兜底修复浏览器不显示value的bug
-input.value = ":(";
-</script>
 </body>
 </html>
