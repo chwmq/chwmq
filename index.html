@@ -4,8 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CHWMQ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        
+        @font-face {
+            font-family: "PeacekeeperEliteBold";
+            src: url("Tencent Peacekeeper Elite Bold-subset.ttf") format("truetype");
+            font-weight: 900;
+            font-style: normal;
+            font-display: swap;
+            unicode-range: U+0043, U+0048, U+0057, U+004D, U+0051;
+        }
 
         * {
             margin: 0;
@@ -14,7 +24,7 @@
         }
 
         body {
-            /* 去掉固定Inter，使用浏览器原生默认字体 */
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: #ffffff;
             min-height: 100vh;
             display: flex;
@@ -26,7 +36,7 @@
         }
 
         .title {
-            font-family: "PeacekeeperEliteBold", sans-serif;
+            font-family: "PeacekeeperEliteBold", "Inter", -apple-system, sans-serif;
             font-size: clamp(52px, 16vw, 96px);
             font-weight: 900;
             letter-spacing: clamp(8px, 2.5vw, 16px);
@@ -52,10 +62,12 @@
             font-size: clamp(16px, 4vw, 20px);
             background: transparent;
             padding: 0 16px;
-            /* 输入框使用系统原生字体，不再强制Inter */
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
         }
+
+        /* 输入框内的默认提示文字 */
         .search-input::placeholder {
-            color: #444444;
+            color: #9a9a9a;
             opacity: 1;
         }
 
@@ -84,6 +96,7 @@
     <h1 class="title">CHWMQ</h1>
 
     <div class="search-wrap">
+        <!-- 用 placeholder 做默认提示文字，不作为真实输入值 -->
         <input class="search-input" type="text" placeholder=":(">
         <button class="arrow-btn">
             <svg viewBox="0 0 24 24">
