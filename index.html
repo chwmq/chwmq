@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CHWMQ</title>
-    <!-- 引入Inter字体，作为全局统一默认字体，跨设备一致 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
@@ -15,7 +14,6 @@
             font-weight: 900;
             font-style: normal;
             font-display: block;
-            /* 严格限定：仅C H W M Q五个大写字母启用这个字体 */
             unicode-range: U+0043, U+0048, U+0057, U+004D, U+0051;
         }
 
@@ -25,7 +23,6 @@
             box-sizing: border-box;
         }
 
-        /* 全局统一基础字体：Inter，所有其他字符都用这个，不受设备系统字体影响 */
         body {
             font-family: "Inter", sans-serif;
             background-color: #ffffff;
@@ -34,14 +31,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 48px;
+            gap: clamp(32px, 8vw, 48px);
+            padding: 0 16px;
         }
 
         .title {
             font-family: "PeacekeeperEliteBold", "Inter", sans-serif;
-            font-size: 96px;
+            /* 动态字号：最小52px，最大96px，随屏幕变化 */
+            font-size: clamp(52px, 16vw, 96px);
             font-weight: 900;
-            letter-spacing: 16px;
+            letter-spacing: clamp(8px, 2.5vw, 16px);
             color: #111111;
             line-height: 1;
         }
@@ -52,17 +51,18 @@
             border: 2px solid #000000;
             border-radius: 4px;
             background: #ffffff;
+            width: 100%;
+            max-width: 420px;
         }
 
         .search-input {
-            width: 340px;
-            height: 56px;
+            flex: 1;
+            height: clamp(48px, 12vw, 56px);
             border: none;
             outline: none;
-            font-size: 20px;
+            font-size: clamp(16px, 4vw, 20px);
             background: transparent;
             padding: 0 16px;
-            /* 输入框也使用Inter，:( 和输入内容都是Inter */
             font-family: "Inter", sans-serif;
         }
 
@@ -70,8 +70,8 @@
             background: #000000;
             border: none;
             cursor: pointer;
-            height: 56px;
-            padding: 0 20px;
+            height: clamp(48px, 12vw, 56px);
+            padding: 0 clamp(14px, 4vw, 20px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -79,38 +79,11 @@
         }
 
         .arrow-btn svg {
-            width: 28px;
-            height: 28px;
+            width: clamp(22px, 5vw, 28px);
+            height: clamp(22px, 5vw, 28px);
             stroke: #ffffff;
             stroke-width: 2;
             fill: none;
-        }
-
-        @media (max-width: 480px) {
-            body {
-                gap: 36px;
-            }
-
-            .title {
-                font-size: 56px;
-                letter-spacing: 10px;
-            }
-
-            .search-input {
-                width: 240px;
-                height: 48px;
-                font-size: 18px;
-            }
-
-            .arrow-btn {
-                height: 48px;
-                padding: 0 16px;
-            }
-
-            .arrow-btn svg {
-                width: 24px;
-                height: 24px;
-            }
         }
     </style>
 </head>
