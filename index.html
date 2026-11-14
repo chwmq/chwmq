@@ -1,7 +1,10 @@
 <form action="https://api.web3forms.com/submit" method="POST">
   <input type="hidden" name="access_key" value="fbb1a5dc-02f5-4c5f-80b5-9ebe647af0d8">
-  <input type="text" name="name" required>
-  <input type="email" name="email" required>
-  <textarea name="message" required></textarea>
-  <button type="submit">Submit Form</button>
+  <!-- 蜜罐：隐藏的防机器人，用户看不见，免费！ -->
+  <input type="checkbox" name="botcheck" style="display:none;">
+
+  <input type="text" name="nickname" placeholder="你的昵称" required>
+  <textarea name="message" placeholder="写下留言" required></textarea>
+
+  <button type="submit">提交留言</button>
 </form>
