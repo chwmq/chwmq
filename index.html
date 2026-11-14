@@ -4,8 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-/* 表单容器，居中 */
-.comment-form-wrap {
+.form-wrap {
   max-width: 520px;
   margin: 30px auto;
   padding: 24px;
@@ -14,16 +13,14 @@
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   font-family: system-ui, -apple-system, sans-serif;
 }
-.comment-form-wrap h3 {
+.form-wrap h3 {
   margin-top: 0;
   color: #222;
   font-weight: 600;
 }
-/* 输入框通用样式 */
 .form-item {
   margin-bottom: 16px;
 }
-.form-item input,
 .form-item textarea {
   width: 100%;
   box-sizing: border-box;
@@ -33,16 +30,12 @@
   font-size: 15px;
   transition: 0.2s border;
   outline: none;
-}
-.form-item input:focus,
-.form-item textarea:focus {
-  border-color: #4080ff;
-}
-.form-item textarea {
   min-height: 140px;
   resize: vertical;
 }
-/* 提交按钮 */
+.form-item textarea:focus {
+  border-color: #4080ff;
+}
 .submit-btn {
   width: 100%;
   padding: 13px;
@@ -57,27 +50,81 @@
 .submit-btn:hover {
   background-color: #2b6ed9;
 }
+.tip {
+  color:#666;
+  font-size:13px;
+  margin:8px 0 16px;
+}
 </style>
 </head>
 <body>
 
-<div class="comment-form-wrap">
-  <h3>留言反馈</h3>
-  <form action="https://api.web3forms.com/submit" method="POST">
-    <input type="hidden" name="access_key" value="fbb1a5dc-02f5-4c5f-80b5-9ebe647af0d8">
-    <!-- 蜜罐防机器人，用户看不见 -->
+<!-- 表单A：留言表单（自动IP、设备信息，只手动输入留言） -->
+<div class="form-wrap">
+  <h3>留言提交</h3>
+  <div class="tip">系统将自动收集IP、浏览器设备信息</div>
+  <form id="msgForm" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="换成你自己的web3forms key">
     <input type="checkbox" name="botcheck" style="display:none;">
+    <!-- 自动填充隐藏字段 -->
+    <input type="hidden" name="ip" id="ipInput">
+    <input type="hidden" name="device" id="deviceInput">
 
-    <div class="form-item">
-      <input type="text" name="name" placeholder="你的昵称" required>
-    </div>
     <div class="form-item">
       <textarea name="message" placeholder="写下你的留言……" required></textarea>
     </div>
-
     <button class="submit-btn" type="submit">提交留言</button>
   </form>
 </div>
+
+<!-- 表单B：经纬度表单 -->
+<div class="form-wrap">
+  <h3>位置上报</h3>
+  <div class="tip">点击提交会请求定位权限，获取经纬度上传</div>
+  <form id="locForm" action="https://api.web3forms.com/submit" method="POST">
+    <input type="hidden" name="access_key" value="换成你自己的web3forms key">
+    <input type="checkbox" name="botcheck" style="display:none;">
+    <input type="hidden" name="latitude" id="latInput">
+    <input type="hidden" name="longitude" id="lngInput">
+
+    <button class="submit-btn" type="submit">获取位置并上传</button>
+  </form>
+</div>
+
+<script>
+// 1. 获取公网IP
+fetch('https://api.ipify.org?format=json')
+.then(res=>res.json())
+.then(data=>{
+  document.getElementById('ipInput').value = data.ip;
+})
+.catch(err=>{
+  document.getElementById('ipInput').value = "获取失败";
+})
+
+// 2. 获取设备UA信息（浏览器+设备）
+document.getElementById('deviceInput').value = navigator.userAgent;
+
+// 3. 定位表单，提交前先获取经纬度
+const locForm = document.getElementById('locForm');
+locForm.addEventListener('submit', async function(e){
+  e.preventDefault();
+  if(!navigator.geolocation){
+    alert("你的浏览器不支持定位");
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(
+    (pos)=>{
+      document.getElementById('latInput').value = pos.coords.latitude;
+      document.getElementById('lngInput').value = pos.coords.longitude;
+      locForm.submit();
+    },
+    (err)=>{
+      alert("定位失败：用户拒绝授权 / 定位不可用");
+    }
+  )
+})
+</script>
 
 </body>
 </html>
