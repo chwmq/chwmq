@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 <style>
 .form-wrap {
   max-width: 520px;
@@ -50,46 +51,95 @@
 .submit-btn:hover {
   background-color: #2b6ed9;
 }
+.submit-btn:disabled {
+  background-color:#88b8f5;
+  cursor:not-allowed;
+}
 .tip {
   color:#666;
   font-size:13px;
   margin:8px 0 16px;
 }
+.h-captcha{margin:12px 0;}
 </style>
 </head>
 <body>
 
-<!-- 留言表单：自动IP+设备信息，仅留言输入框 -->
 <div class="form-wrap">
   <h3>留言提交</h3>
-  <div class="tip">系统将自动收集公网IP、浏览器设备信息</div>
-  <form id="msgForm" action="https://api.web3forms.com/submit" method="POST">
+  <div class="tip">系统将自动收集公网IP、浏览器设备信息，完成人机验证后提交</div>
+  <form id="msgForm">
     <input type="hidden" name="access_key" value="fbb1a5dc-02f5-4c5f-80b5-9ebe647af0d8">
     <input type="checkbox" name="botcheck" style="display:none;">
-    <!-- 自动填充隐藏字段 -->
     <input type="hidden" name="ip" id="ipInput">
     <input type="hidden" name="device" id="deviceInput">
 
     <div class="form-item">
       <textarea name="message" placeholder="写下你的留言……" required></textarea>
     </div>
+    <!-- 这里替换成你自己 hCaptcha 的 sitekey -->
+    <div class="h-captcha" data-sitekey="【替换为你的hCaptcha sitekey】"></div>
+
     <button class="submit-btn" type="submit">提交留言</button>
   </form>
 </div>
 
 <script>
-// 获取公网IP
-fetch('https://api.ipify.org?format=json')
-.then(res=>res.json())
-.then(data=>{
-  document.getElementById('ipInput').value = data.ip;
-})
-.catch(err=>{
-  document.getElementById('ipInput').value = "获取失败";
-})
+// 国内优先IP接口 + 备用列表
+const ipApiList = [
+  "https://ipv4.ddnsip.cn/json",
+  "https://api.ipify.org?format=json",
+  "https://ipapi.co/json/"
+];
+let finalIp = "获取失败";
 
-// 获取浏览器/设备UA信息
+async function getPublicIP() {
+  for(const api of ipApiList) {
+    try {
+      const res = await fetch(api, {signal:AbortSignal.timeout(4000)});
+      if(!res.ok) continue;
+      const json = await res.json();
+      if(json.ip) return json.ip;
+    } catch(e){continue;}
+  }
+  return "获取失败";
+}
+
+// 预加载IP
+getPublicIP().then(ip=>{
+  finalIp = ip;
+  document.getElementById('ipInput').value = ip;
+});
+// 浏览器UA
 document.getElementById('deviceInput').value = navigator.userAgent;
+
+// AJAX提交
+const form = document.querySelector('#msgForm');
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const formData = new FormData(form);
+  const btn = form.querySelector('.submit-btn');
+  btn.disabled = true;
+  btn.innerText = "提交中...";
+  try{
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+    const result = await res.json();
+    if(result.success) {
+      alert("✅ 留言提交成功！");
+      form.reset();
+      hcaptcha.reset(); // 重置验证组件
+    } else {
+      alert("❌ 提交失败：" + result.message);
+    }
+  }catch(err){
+    alert("❌ 网络错误");
+  }
+  btn.disabled = false;
+  btn.innerText = "提交留言";
+})
 </script>
 
 </body>
