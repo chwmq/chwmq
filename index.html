@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 .form-wrap {
+  width: 92%;
   max-width: 520px;
   margin: 30px auto;
   padding: 24px;
@@ -12,11 +13,7 @@
   border-radius: 14px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   font-family: system-ui, -apple-system, sans-serif;
-}
-.form-wrap h3 {
-  margin-top: 0;
-  color: #222;
-  font-weight: 600;
+  box-sizing: border-box;
 }
 .form-item {
   margin-bottom: 16px;
@@ -25,7 +22,7 @@
   width: 100%;
   box-sizing: border-box;
   padding: 12px 14px;
-  border: 1px solid #ddd;
+  border: 1px solid #000000;
   border-radius: 10px;
   font-size: 15px;
   transition: 0.2s border;
@@ -34,12 +31,12 @@
   resize: vertical;
 }
 .form-item textarea:focus {
-  border-color: #4080ff;
+  border-color: #000000;
 }
 .submit-btn {
   width: 100%;
   padding: 13px;
-  background-color: #4080ff;
+  background-color: #000000;
   color: white;
   border: none;
   border-radius: 10px;
@@ -48,16 +45,11 @@
   transition: 0.2s;
 }
 .submit-btn:hover {
-  background-color: #2b6ed9;
+  background-color: #333333;
 }
 .submit-btn:disabled {
-  background-color:#88b8f5;
+  background-color:#555555;
   cursor:not-allowed;
-}
-.tip {
-  color:#666;
-  font-size:13px;
-  margin:8px 0 16px;
 }
 /* 蜜罐，隐藏不可见 */
 .botcheck-hp {
@@ -72,11 +64,9 @@
 <body>
 
 <div class="form-wrap">
-  <h3>留言提交</h3>
-  <div class="tip">系统将自动收集公网IP、浏览器设备信息，提交后等待管理员查看</div>
   <form id="msgForm">
     <!-- Web3Forms密钥 -->
-    <input type="hidden" name="access_key" value="fbb1a5dc-02f5-4c5f-80b5-9ebe647af0d8">
+    <input type="hidden" name="access_key" value="">
     <!-- 蜜罐防机器人 -->
     <input type="text" name="botcheck" class="botcheck-hp">
     <!-- 自动填充数据 -->
@@ -117,7 +107,6 @@ async function getPublicIP() {
 getPublicIP().then(ip=>{
   finalIp = ip;
   document.getElementById('ipInput').value = ip;
-  // name直接填入IP（密钥验证成功后，后台收到的name就是这个值）
   document.getElementById('nameInput').value = ip;
 });
 document.getElementById('deviceInput').value = navigator.userAgent;
@@ -137,8 +126,9 @@ form.addEventListener('submit', async function(e) {
     });
     const result = await res.json();
     if(result.success) {
-      alert("✅ 密钥验证通过！留言提交成功，等待管理员查看");
-      form.reset();
+      alert("✅ 密钥验证通过！留言提交成功");
+      // 提交成功自动跳转到主页
+      window.location.href = "https://chwmq.github.io/code?=chat";
     } else {
       alert("❌ 提交失败：" + result.message);
     }
