@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script src="https://js.hcaptcha.com/1/api.js" async defer></script>
 <style>
 .form-wrap {
   max-width: 520px;
@@ -60,25 +59,24 @@
   font-size:13px;
   margin:8px 0 16px;
 }
-.h-captcha{margin:12px 0;}
 </style>
 </head>
 <body>
 
 <div class="form-wrap">
   <h3>留言提交</h3>
-  <div class="tip">系统将自动收集公网IP、浏览器设备信息，完成人机验证后提交</div>
+  <div class="tip">系统将自动收集公网IP、浏览器设备信息，提交后等待管理员查看</div>
   <form id="msgForm">
+    <!-- 这里填你web3forms的access_key -->
     <input type="hidden" name="access_key" value="fbb1a5dc-02f5-4c5f-80b5-9ebe647af0d8">
-    <input type="checkbox" name="botcheck" style="display:none;">
+    <!-- 蜜罐字段，机器人会自动填充，web3forms识别为垃圾信息 -->
+    <input type="text" name="botcheck" class="botcheck-hp">
     <input type="hidden" name="ip" id="ipInput">
     <input type="hidden" name="device" id="deviceInput">
 
     <div class="form-item">
       <textarea name="message" placeholder="写下你的留言……" required></textarea>
     </div>
-    <!-- 这里替换成你自己 hCaptcha 的 sitekey -->
-    <div class="h-captcha" data-sitekey="4ec8562c-581e-4aaa-ab60-4c0a41004378"></div>
 
     <button class="submit-btn" type="submit">提交留言</button>
   </form>
@@ -128,19 +126,17 @@ form.addEventListener('submit', async function(e) {
     });
     const result = await res.json();
     if(result.success) {
-      alert("✅ 留言提交成功！");
+      alert("✅ 验证通过！留言提交成功，等待管理员查看");
       form.reset();
-      hcaptcha.reset(); // 重置验证组件
     } else {
       alert("❌ 提交失败：" + result.message);
     }
   }catch(err){
-    alert("❌ 网络错误");
+    alert("❌ 网络错误，请稍后重试");
   }
   btn.disabled = false;
   btn.innerText = "提交留言";
 })
 </script>
-
 </body>
 </html>
